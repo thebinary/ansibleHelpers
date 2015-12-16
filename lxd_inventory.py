@@ -17,7 +17,7 @@ parser.add_argument('--list', action='store_true')
 parser.add_argument('--host', action='store_true')
 parser.add_argument('--create', action='store_true')
 parser.add_argument('-p', '--port', type=int, help='lxd restapi port, default: 8443', default=8443)
-parser.add_argument('-u', '--user', type=str, help='ansible ssh user in inventory', default="thebinary")
+parser.add_argument('-u', '--user', type=str, help='ansible ssh user in inventory', default="")
 
 args = parser.parse_args()
 
@@ -61,7 +61,8 @@ elif (argument == '--create' ):
 	for host in containers.keys():
 		host_params = {}
 		host_params['ansible_ssh_host'] = containers[host]
-		host_params['ansible_ssh_user'] = ansible_ssh_user
+		if ( ansible_ssh_user != "" ):
+			host_params['ansible_ssh_user'] = ansible_ssh_user
 		host_ansible_params=""
 		for key in host_params:
 			host_ansible_params = host_ansible_params + " " + key + "=" + host_params[key]
